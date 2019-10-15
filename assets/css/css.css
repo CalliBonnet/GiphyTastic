@@ -1,0 +1,23 @@
+
+/* This is the area under the search bar  */
+.recent-search {
+    display: flex; 
+    justify-content: flex-start; 
+    flex-wrap: wrap; 
+    margin: 20px; 
+}
+
+/* Styling the buttons  */
+.wrap-buttons {
+    border: 1px solid lightpink; 
+    margin-left: 2px; 
+    margin-bottom: 2px; 
+    border-radius: 5px; 
+}
+
+/* Line within the button  */
+.btn-delete {
+    border-left: 1px solid gray; 
+    border-radius: 0px; 
+}
+
