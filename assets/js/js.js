@@ -1,7 +1,5 @@
-console.log($)
-
 //intial values 
-let buttons = ['Cats', 'Dogs'];
+let buttons = [ ];
 
 const APIKey = 'vEQyliGF7tOjjUCPmVlRFfY9FNRG2iz0';
 const endPoint = 'http://api.giphy.com/v1/gifs/search?api_key=vEQyliGF7tOjjUCPmVlRFfY9FNRG2iz0';
@@ -69,23 +67,19 @@ function addButtons(value) {
 
 
 
+// This is creating the giphy template 
+function createGiphyTemplate(giphy) {
 
-function renderGiphy(giphys) {
+    const images = giphy.images; 
 
-    for (let i = 0; i < giphys.length; i++) {
-        const giphy = giphys[i];
-
-        const images = giphy.images; 
-
-        // This is creating what the giphys look like on the screen 
-        const giphyTemplate = `
+   const template =  `
 
         <div class="giphy">
             <div class="giphy-image">
                  <img 
                     src="${images.original_still.url}" 
-                    data-still="https://media0.giphy.com/media/eYilisUwipOEM/giphy_s.gif" 
-                    data-animate="https://media0.giphy.com/media/eYilisUwipOEM/giphy.gif" 
+                    data-still="${images.original_still.url}" 
+                    data-animate="${images.url}" 
                     data-state="still">
                  <i class="fa fa-play img-play"></i>
             </div>
@@ -94,15 +88,30 @@ function renderGiphy(giphys) {
                  <p>Posted A Year Ago</p>
             </div>
 
-            <div class="giphy-footer" data-link="https://giphy.com/embed/eYilisUwipOEM"> 
+            <div class="giphy-footer" data-link="${giphy.embed_url}"> 
                  <p>Copy Link <i class="fa fa-link"></i></p>
             </div>
         </div>
         
         `;
 
+        return template; 
+}; 
+
+
+function renderGiphy(giphys) {
+
+    $('.giphy-content').empty(); 
+
+    for (let i = 0; i < giphys.length; i++) {
+        const giphy = giphys[i];
+
+        const giphyTemplate = createGiphyTemplate(giphy); 
+        $('.giphy-content').append(giphyTemplate); 
+
     }
 }
+
 
 
 // This is fetching the searched Giphy 
@@ -115,15 +124,13 @@ function fetchGiphy(value) {
             const giphys = response.data;
 
             renderGiphy(giphys);
-            console.log(data);
+            console.log('Giphy:', giphys);
         })
         .catch(function (error) {
             console.log(error);
         });
 
 };
-
-
 
 
 
@@ -137,8 +144,70 @@ function searchGiphy(event) {
     console.log('Value:', value);
 };
 
+// This is playing the giphy when clicked 
+function imgCardclick() {
+   const giphyCard = $(this); 
+    
+   const img = giphyCard.find('img'); 
+   const icon = giphyCard.find('i'); 
+
+   const still = img.attr('data-still'); 
+   const animate = img.attr('data-animate'); 
+   const state = img.attr('data-state'); 
+
+    if (state === 'still') {
+        img.attr({
+            src: animate, 
+            'data-state': 'animate'
+        }); 
+
+        icon.removeClass('img-play'); 
+
+    } else {
+        img.attr({
+            src: still, 
+            'data-state': 'still'
+        }); 
+        icon.addClass('img-play'); 
+    }
+
+}
+
+
+function clipToClipBoard(value) {
+    const tempElement = $('<input>'); 
+    $('body').append(tempElement); 
+
+    tempElement.val(value).select(); 
+    document.execCommand('copy'); 
+    tempElement.remove(); 
+}
+
+function copyLink() {
+
+    const link = $(this).attr('data-link'); 
+    clipToClipBoard(link); 
+}
+
+
+// When the user clicks on a button, the page will load those giphys 
+function searchGiphyButton() {
+    const buttonName = $(this).attr('data-name'); 
+    const parent = $(this).parent(); 
+    
+    $('.btn').parent().removeClass('active'); 
+    parent.addClass('active'); 
+
+    fetchGiphy(buttonName); 
+}
+
 
 
 //Events 
 $(document).on('click', '.btn-delete', removeButton);
+$(document).on("click", '.giphy-image', imgCardclick); 
+$(document).on("click", '.giphy-footer', copyLink); 
+$(document).on("click", '.btn-search', searchGiphyButton); 
+
+
 $('#submit-btn').on('click', searchGiphy); 
