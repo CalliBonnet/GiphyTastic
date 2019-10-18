@@ -1,5 +1,5 @@
 //intial values 
-let buttons = [ ];
+let buttons = ["cats", "dogs"];
 
 const APIKey = 'vEQyliGF7tOjjUCPmVlRFfY9FNRG2iz0';
 const endPoint = 'http://api.giphy.com/v1/gifs/search?api_key=vEQyliGF7tOjjUCPmVlRFfY9FNRG2iz0';
@@ -9,7 +9,7 @@ const endPoint = 'http://api.giphy.com/v1/gifs/search?api_key=vEQyliGF7tOjjUCPmV
 function loadButtons() {
     const listButtons = JSON.parse(localStorage.getItem('buttons'));
 
-    buttons = listButtons;
+    localbuttons = listButtons;
 };
 
 
@@ -135,6 +135,8 @@ function fetchGiphy(value) {
 
 
 function searchGiphy(event) {
+    console.log(`this was clicked`);
+    
     event.preventDefault();
 
     const value = $('#search').val();
