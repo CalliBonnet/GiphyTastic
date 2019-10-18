@@ -79,7 +79,7 @@ function createGiphyTemplate(giphy) {
                  <img 
                     src="${images.original_still.url}" 
                     data-still="${images.original_still.url}" 
-                    data-animate="${images.url}" 
+                    data-animate="${images.original.url}" 
                     data-state="still">
                  <i class="fa fa-play img-play"></i>
             </div>
