@@ -2,7 +2,7 @@
 let buttons = ["cats", "dogs"];
 
 const APIKey = 'vEQyliGF7tOjjUCPmVlRFfY9FNRG2iz0';
-const endPoint = 'http://api.giphy.com/v1/gifs/search?api_key=vEQyliGF7tOjjUCPmVlRFfY9FNRG2iz0';
+const endPoint = 'https://api.giphy.com/v1/gifs/search?api_key=vEQyliGF7tOjjUCPmVlRFfY9FNRG2iz0';
 
 
 // This is loading all newly created buttons when page re-loads 
